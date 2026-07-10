@@ -3,7 +3,7 @@
    ========================================================================== */
 
 :root {
-    --bg-contenedor: linear-gradient(180deg, #2ae0ff 0%, #00a2ff 100%);
+    --background: #191b2a !important;
     --bg-tarjeta: rgba(36, 41, 54, 0.85);
     --texto-principal: #ffffff;
     --texto-secundario: #c0c5d5;
