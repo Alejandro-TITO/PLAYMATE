@@ -3,7 +3,7 @@
    ========================================================================== */
 
 :root {
-    --background: #191b2a !important;
+    --bg-contenedor: linear-gradient(180deg, #2ae0ff 0%, #00a2ff 100%);
     --bg-tarjeta: rgba(36, 41, 54, 0.85);
     --texto-principal: #ffffff;
     --texto-secundario: #c0c5d5;
@@ -463,7 +463,6 @@ main {
 
 .nube-j1 {
     position: absolute;
-    background: url('https://i.imgur.com/w9N8mY8.png') no-repeat;
     background-size: contain;
     width: 120px;
     height: 70px;
