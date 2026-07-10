@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MateAventura: Cyber Pulse & Safari</title>
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Hojas de estilo personalizadas -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Librerías de Terceros -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+    <canvas id="particleCanvas"></canvas>
+    <div class="weather-layer" id="weatherLayer"></div>
+
+    <div id="clouds" style="display: none;">
+        <div class="cloud" style="top:50px; width:150px; height:60px; animation-duration: 20s;"></div>
+        <div class="cloud" style="top:150px; width:200px; height:80px; animation-duration: 25s; animation-delay: -5s;"></div>
+        <div class="cloud" style="top:80px; left:50%; width:120px; height:50px; animation-duration: 30s; animation-delay: -10s;"></div>
+    </div>
+
+    <div class="animal-decoration safari-animal" id="safari1" style="left: 5%;">🦒</div>
+    <div class="animal-decoration safari-animal" id="safari2" style="right: 5%;">🐘</div>
+    <div class="animal-decoration polar-animal" id="polar1" style="left: 10%; bottom: 20px;">🐻</div>
+    <div class="animal-decoration polar-animal" id="polar2" style="right: 10%; bottom: 20px;">⛄</div>
+
+    <div class="landscape" id="landscape">
+        <span class="tree-decoration" id="tree1" style="left: 15%;">🌴</span>
+        <span class="tree-decoration" id="tree2" style="right: 20%;">🌴</span>
+    </div>
+
+    <!-- Pantalla de Bienvenida / Portada -->
+    <div id="welcome-screen">
+        <div class="floating-confetti"></div>
+        <div class="confetti"></div>
+
+        <div class="welcome-content-wrapper">
+            <h1 class="playmate-title">PLAYMATE<br>GAMES</h1>
+
+            <div class="menu-container">
+                <div class="game-bubble red-bubble" onclick="showGamePopup('game1-container')">
+                    <div class="bubble-icon">
+                        <img src="img/frutas.png" alt="Formas">
+                    </div>
+                </div>
+
+                <div class="game-bubble blue-bubble" onclick="showGamePopup('game2-container')">
+                    <div class="bubble-icon">
+                        <img src="img/leonn.png" alt="León">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="balloon balloon-left"></div>
+        <div class="balloon balloon-right"></div>
+    </div>
+
+    <!-- Contenido Principal de los Juegos -->
+    <main id="game-content" class="hidden">
+
+        <!-- JUEGO 1: Operaciones con Fruta -->
+        <div id="game1-container" class="game-interface game-interface-grid hidden">
+            <section class="game-view" style="position: relative;">
+                <div class="capa-animada-j1" id="animacionJuego1"></div>
+
+                <div class="header-game1" style="position: relative; z-index: 10;">
+                    <button class="btn-yellow" onclick="cambiarOperacion()">✨ / ➖ Cambiar Signo</button>
+                    <h2 style="font-family: 'Titan One', cursive; -webkit-text-stroke: 1px #e63946;">🍓 Operaciones con Fruta 🍍</h2>
+                    <button class="btn-yellow" onclick="vaciarCuadros()">🗑️ Vaciar</button>
+                </div>
+
+                <p style="color: #ffffff; text-align: center; margin-bottom: 1rem; font-weight: bold; position: relative; z-index: 10;">
+                    Arrastra las frutas a los cuadrados para resolver la operación de manera dinámica.
+                </p>
+
+                <div class="operacion-g1" style="position: relative; z-index: 10;">
+                    <div class="cuadro" id="c1" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                    <div id="signo">+</div>
+                    <div class="cuadro" id="c2" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                    <div style="font-size: 3.5rem; font-weight: bold; color:white;">=</div>
+                    <div id="c3"></div>
+                </div>
+
+                <div class="frutas-g1" style="position: relative; z-index: 10;">
+                    <img src="https://img.icons8.com/color/96/strawberry.png" alt="🍓" draggable="true" ondragstart="drag(event)">
+                    <img src="https://img.icons8.com/color/96/pear.png" alt="🍐" draggable="true" ondragstart="drag(event)">
+                    <img src="https://img.icons8.com/color/96/pineapple.png" alt="🍍" draggable="true" ondragstart="drag(event)">
+                    <img src="https://img.icons8.com/color/96/kiwi.png" alt="🥝" draggable="true" ondragstart="drag(event)">
+                    <img src="https://img.icons8.com/color/96/apple.png" alt="🍎" draggable="true" ondragstart="drag(event)">
+                    <img src="https://img.icons8.com/color/96/banana.png" alt="🍌" draggable="true" ondragstart="drag(event)">
+                </div>
+            </section>
+
+            <aside class="sidebar">
+                <h3 style="color: white; margin-bottom: 10px;">Consola Global</h3>
+                <div class="score-panel" style="margin-bottom: 15px;">
+                    <p style="font-weight: bold;">Status: <span style="color: #ffe600;">Online</span></p>
+                </div>
+                <div class="score-panel" style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                    <div class="resultado-g1" id="resultado">Esperando frutas...</div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- JUEGO 2: Safari Mágico -->
+        <div id="game2-container" class="game-interface hidden">
+            <div class="game-world">
+                <div class="streak-container">
+                    Racha: <span id="streak">0</span> <span class="streak-fire">🔥</span>
+                </div>
+
+                <div style="font-size: 2rem; margin-bottom: 10px;">¡Hola! Soy el León Mágico 🦁</div>
+
+                <div class="math-zone">
+                    <div class="num-block">
+                        <div id="f1" class="fruit-count-area"></div>
+                        <span id="n1" class="number-text">2</span>
+                    </div>
+
+                    <span class="symbol" id="op">+</span>
+
+                    <div class="num-block">
+                        <div id="f2" class="fruit-count-area"></div>
+                        <span id="n2" class="number-text">3</span>
+                    </div>
+
+                    <span style="font-size: 4rem;">=</span>
+
+                    <div class="num-block" style="background: rgba(255,255,255,0.5); padding: 10px; border-radius: 20px;">
+                        <div id="fRes" class="fruit-count-area" style="grid-template-columns: repeat(4, 1fr);"></div>
+                        <span id="display" class="number-text" style="color:#ff9f43"></span>
+                    </div>
+                </div>
+
+                <div class="fruit-grid">
+                    <button class="fruit-btn" onclick="addNum(1)"><span class="fruit-icon">🍎</span><span class="fruit-num">1</span></button>
+                    <button class="fruit-btn" onclick="addNum(2)"><span class="fruit-icon">🍌</span><span class="fruit-num">2</span></button>
+                    <button class="fruit-btn" onclick="addNum(3)"><span class="fruit-icon">🍇</span><span class="fruit-num">3</span></button>
+                    <button class="fruit-btn" onclick="addNum(4)"><span class="fruit-icon">🍉</span><span class="fruit-num">4</span></button>
+                    <button class="fruit-btn" onclick="addNum(5)"><span class="fruit-icon">🍊</span><span class="fruit-num">5</span></button>
+                    <button class="fruit-btn" onclick="addNum(6)"><span class="fruit-icon">🍍</span><span class="fruit-num">6</span></button>
+                    <button class="fruit-btn" onclick="addNum(7)"><span class="fruit-icon">🍓</span><span class="fruit-num">7</span></button>
+                    <button class="fruit-btn" onclick="addNum(8)"><span class="fruit-icon">🍒</span><span class="fruit-num">8</span></button>
+                    <button class="fruit-btn" onclick="addNum(9)"><span class="fruit-icon">🥝</span><span class="fruit-num">9</span></button>
+                    <button class="fruit-btn" onclick="addNum(0)"><span class="fruit-icon">🥥</span><span class="fruit-num">0</span></button>
+
+                    <button class="btn-delete" onclick="clearAll()">BORRAR</button>
+                    <button class="btn-check" onclick="checkAnswer()">¡LISTO! ✅</button>
+                </div>
+
+                <div id="overlay">
+                    <h1 id="msg" style="font-size: 4rem;">¡SUPER!</h1>
+                    <button onclick="next()" class="btn-check" style="padding: 20px 50px;">SIGUIENTE ➡️</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Botones de Navegación del Footer -->
+    <footer class="game-footer">
+        <button id="btn-back" class="btn-footer btn-home hidden" onclick="goToMenu()">
+            <span class="btn-icon">🏠</span>
+            <span>Portada</span>
+        </button>
+
+        <button class="btn-footer btn-exit" onclick="exitPage()">
+            <span class="btn-icon">🚪</span>
+            <span>Salir del Juego</span>
+        </button>
+    </footer>
+
+    <!-- Ventana Emergente Modal Interactiva -->
+    <div id="game-popup" class="popup-overlay hidden">
+        <div class="popup-box">
+            <button class="popup-close" onclick="closePopup()">✖</button>
+            <h2>¡Nuevo Juego!</h2>
+            <p id="popup-text">Prepárate para comenzar la aventura 🎮</p>
+            <button class="popup-play" id="popup-play-btn">Aceptar</button>
+            <div class="popup-gif">
+                <img src="img/gifP1.png" alt="Gif Animado">
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de comportamiento del juego -->
+    <script src="js/game.js"></script>
+</body>
+
+</html>
